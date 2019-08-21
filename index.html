@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSV|JSON|JQUERY</title>
+        <link rel="stylesheet" type="text/css" href="css/w3school.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        
+        <script type="text/javascript">
+        	
+$(document).ready(function(){
+
+  $.ajax({
+    type:"GET",
+    url:"counties.json",
+    //dataType:'json',
+    success:function(data)
+    { 
+      //alert("You Are Good To Go");
+     // data = JSON.parse(response);
+     //alert(data);
+		$.each(data, function( index, row ) {
+		  //bind header
+		  //alert(index)
+       
+			//var row2=row.toString().split(',');
+      $('#county').append('<option value=' +  row.name + '>' + row.name + '</option>');
+    
+		});
+	
+		
+	  
+    }
+    
+});
+$('#county').on('change',function(){
+  
+  var id=this.value;
+  var html = " ";
+$.ajax({
+  type:"GET",
+  url:'counties.json',
+  success:function(data)
+  {
+    $.each(data,function(index,row){
+      if(row.name==id)
+      {
+        //
+        $.each(row.sub_counties,function(ind,rw){
+         // alert(rw);
+         html += '<option value=' + rw + '>' + rw + '</option>';
+        });
+        $('#subcounty').html(html);
+      }
+    });
+  }
+})
+});
+    
+  /*
+$('#subcounty').on('change',function(){
+  
+var id=this.value;
+var data ;
+$.ajax({
+    type:"GET",
+    url:"counties.json",
+   // dataType:"text",
+    success:function(response)
+    { 
+      var data = JSON.parse(response);
+      //data = $.csv.toArrays(response)(()()
+     //alert(data);
+		$.each(data, function( index, row ) {
+		  //bind header
+		  //alert(row)
+       
+			
+      $('#county').append('<option value=' +  row.name + '>' + row.code + '</option>');
+    
+		});
+	
+		
+	  
+    }
+    
+});
+
+});
+*/
+//var data ;
+
+  
+    
+});
+
+
+        </script>
+    </head>
+    <body>
+        <div class="row w3-padding-64 w3-padding-left">
+            <div class="col-md-12 col-sm-12 col-lg-12 w3-padding-32 w3-card-4">
+                <h1 class="w3-center w3-bottombar ">Jquery Autopopulate Select</h1>
+            <form class="w3-padding-right">
+              <div class="form-group w3-padding-left">
+                    <label>
+                            County
+                        </label>
+                        <select id="county" name="county" class="form-control input-lg w3-card-4">
+                            <option>Choose County</option>
+                        </select>
+              </div>
+              <div class="form-group w3-padding-left">
+                    <label>
+                            Sub County
+                        </label>
+                        <select id="subcounty" name="subcounty" class="form-control input-lg w3-card-4">
+                            <option>Choosen Subcounty</option>
+                        </select>
+              </div>
+              
+            </form>
+            <div id="csv-display">
+                
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
